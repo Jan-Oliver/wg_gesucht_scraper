@@ -32,10 +32,10 @@ pip install -r requirements.txt
 The 'main.py' file encapsulates all information the user has to change.
 
 ### Name of datatable
-Change the `DATATABLE_DATABASE` constant in `main.py` to whatever you want. 
+Change the `DATATABLE_DATABASE` constant in `main.py` to whatever you want your table name to be. 
 
 ### Google Maps API Key
-Change the `MAPS_API_KEY` constant in `main.py` to your API Key. It is used to convert the specified address into lon/lat value per on crawl.
+Change the `MAPS_API_KEY` constant in `main.py` to your API Key. It is used to convert the crawled address into lon and lat values.
 
 ### Specify which city to scrape
 Example for Munich to clarify the usage. Other examples are also provided in the `main.py` to give a head start.
