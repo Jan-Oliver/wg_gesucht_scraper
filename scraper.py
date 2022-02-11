@@ -1,10 +1,12 @@
 import requests
 
 import pandas as pd
+import numpy as np
 
 from flats import flats_main_page_parser
 from flats import flats_ad_page_parser
 from util import database_table
+from util import google_maps_api
 
 class Scraper():
   """Scrapes all new ads present on first page.
@@ -17,16 +19,17 @@ class Scraper():
     base_url = <Url of overview page to scrape>
     city_name = <Name of city in dataframe column "city_name" to update>
     database_tablename = <Name of table in database> 
-    
-    scraper = Scraper(database_tablename)
+    google_maps_api_key = <API Key from google maps>
+
+    scraper = Scraper(database_tablename,google_maps_api_key)
     df_updated = scraper.scrape(base_url,city_name)
   """
-  def __init__(self,database_tablename: str):
-    """ Init with name of table in database. """
+  def __init__(self,database_tablename: str, google_maps_api_key: str):
+    """ Init with name of table in database and api key. """
     self._overview_page_scraper = flats_main_page_parser.FlatsMainPageParser()
     self._ad_scraper = flats_ad_page_parser.FlatsAdPageParser()
     self._writer = database_table.DatabaseTable(database_tablename)
-
+    self._maps = google_maps_api.GoogleMapsAPI(google_maps_api_key)
 
   def scrape(self, base_url: str, city_name: str):
     """Scrape ads on first page and append to dataframe if not yet present.
@@ -54,6 +57,10 @@ class Scraper():
     parsed_df["address_district"] = " "
     parsed_df["html"] = " "
     parsed_df["city_name"] = city_name
+    parsed_df["address_string"] = " "
+    parsed_df["lon"] = np.NaN
+    parsed_df["lat"] = np.NaN
+
     # Validate which ads were not scraped yet by comparing the ad ids
     new_rows = list()
     counter = 0
@@ -70,6 +77,13 @@ class Scraper():
         row["address_street"] = address_street
         row["address_district"] = address_district
         row["html"] = html
+        # Get combined string, lon and lat
+        bundled_address = address_street + " " + address_district
+        address_string, lon,lat = self._maps.get_address_lon_lat(bundled_address)
+        print("Converted address via maps API: %s - %f lon - %f lat" % (address_string,lon,lat))
+        row["address_string"] = address_string
+        row["lon"] = lon
+        row["lat"] = lat
         new_rows.append(row)
         counter = counter+1
 

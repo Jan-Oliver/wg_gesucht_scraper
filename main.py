@@ -15,6 +15,7 @@ import schedule
 import time
 
 DATATABLE_DATABASE = "wg_gesucht_wg"
+MAPS_API_KEY = "TODO"
 
 base_url_munich = "https://www.wg-gesucht.de/wg-zimmer-in-Munchen.90.0.0.0.html?noDeact=1"
 base_url_munich_start = "https://www.wg-gesucht.de/wg-zimmer-in-Munchen.90.0.0."
@@ -36,10 +37,10 @@ city_name_dusseldorf = "duesseldorf"
 base_url_to_scrape = base_url_munich
 base_url_start_to_scrape = base_url_munich_start
 base_url_end_to_scrape = base_url_munich_end
-city_name_to_scrape = city_name_frankfurt
+city_name_to_scrape = city_name_munich
 
 def main():
-  scraper_instance = scraper.Scraper(DATATABLE_DATABASE)
+  scraper_instance = scraper.Scraper(DATATABLE_DATABASE,MAPS_API_KEY)
   schedule.every().day.at("00:00").do(update,'Starting update!')
   while True:
     schedule.run_pending()
