@@ -2,6 +2,8 @@
 
 Scrapes und updates data for a specific city from the [Wg Gesucht Website](https://www.wg-gesucht.de/) and automatically uploads it to database.
 
+At the moment only flats are supported. Other ad types such as Apartments will be suported in the future.
+
 ## Installation
 - Create a virtual environemnt
 - Activate environment
@@ -34,7 +36,7 @@ Change the `DATATABLE_DATABASE` constant to whatever you want.
 
 ### Specify which city to scrape
 
-Example for Munich to clarify the usage. Other examples are also given to give a head start.
+Example for Munich to clarify the usage. Other examples are also provided in the `main.py` to give a head start.
 
 ```python
 base_url_to_scrape = base_url_munich
