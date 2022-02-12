@@ -41,14 +41,14 @@ city_name_to_scrape = city_name_munich
 
 def main():
   scraper_instance = scraper.Scraper(DATATABLE_DATABASE,MAPS_API_KEY)
-  schedule.every().day.at("00:00").do(update,'Starting update!')
+  schedule.every().day.at("16:31").do(update,'Starting update!')
   while True:
     schedule.run_pending()
     scraper_instance.scrape(base_url_to_scrape, city_name_to_scrape)
     time.sleep(60 + 60 * random.random())
 
 def update(t):
-  updater_instance = updater.Updater(DATATABLE_DATABASE)
+  updater_instance = updater.Updater(DATATABLE_DATABASE,city_name_to_scrape)
   updater_instance.update(base_url_start_to_scrape,base_url_end_to_scrape)
   return
 

@@ -53,7 +53,7 @@ class Updater():
     # Get all ads from database!
     df = self._writer.get_dataframe()
     # Only use rows with correct city 
-    df_city = df[df["city_name"] is self._city_name]
+    df_city = df[df["city_name"] == self._city_name]
 
     # Get all ids of ads on the website.
     page_id = 0 # Pages start from zero.
