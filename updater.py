@@ -88,7 +88,7 @@ class Updater():
           break
         ad_id = int(ad["data-id"]) # Has to be int to compare to existing scraped ad ids
         active_ad_id_list.append(ad_id)
-      time.sleep(5 + 30 * random.random()) # Process has to be slow to not get detected as bot!
+      time.sleep(60 + 30 * random.random()) # Process has to be slow to not get detected as bot!
     
     temp = df_city[~df_city['ad_id'].isin(active_ad_id_list)]
     print("Found a total of %d entries to be inactive!" % temp.shape[0])
@@ -98,7 +98,7 @@ class Updater():
     df_city.loc[~df_city['ad_id'].isin(active_ad_id_list), 'is_active'] = False
     df_city.loc[~df_city['ad_id'].isin(active_ad_id_list), 'ts_deactivated'] = datetime.now()
     df_city.loc[df_city['ad_id'].isin(active_ad_id_list), 'is_active'] = True
-    df_city.loc[df_city['ad_id'].isin(active_ad_id_list), 'ts_deactivated'] = np.Nan
+    df_city.loc[df_city['ad_id'].isin(active_ad_id_list), 'ts_deactivated'] = np.NaN
 
 
     # Update rows in df that correspond to city
